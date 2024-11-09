@@ -20,6 +20,7 @@ button{
     border-color: #292b2f;
     background-color: #7c7d7d;
     font-size: 22px;
+    transition: opacity 0.2s;
 }
 .displayCalculator{
     width: 230px;
@@ -43,4 +44,8 @@ button{
 
 .top{
     background-color: #424240;
+}
+
+button:active{
+    opacity: 0.5;
 }
