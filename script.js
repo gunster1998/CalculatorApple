@@ -8,7 +8,7 @@ const buttons = document.querySelectorAll('div.contentCalsulator > button');
 
 function updateDisplay() {
     const display = document.querySelector('.displayCalculator');
-    display.innerText = numberDisplay;
+    display.innerText = numberDisplay.replace('.',',');
 }
 
 function clickButtons() {
@@ -48,12 +48,12 @@ function percentToNumber() {
 }
 function inputOperator(operator){
     oneOperator = operator;
-    operandOne = parseFloat(numberDisplay);
+    operandOne = parseFloat(numberDisplay.replace(',','.'));
     numberDisplay = '0';
 }
 
 function inputOparand(operand) {
-    if (numberDisplay === '0') {
+    if (numberDisplay === '0' && operand !== ',') {
         numberDisplay = operand;
     } else {
         numberDisplay = numberDisplay + operand
@@ -65,7 +65,7 @@ function inputOparand(operand) {
 }
 
 function countResult() {
-    operandeTwo = parseFloat(numberDisplay);
+    operandeTwo = parseFloat(numberDisplay.replace(',','.'));
     if (oneOperator === '/'){
         numberDisplay = (operandOne / operandeTwo).toString();
     } else if (oneOperator === '*') {
