@@ -1,4 +1,4 @@
-let numberDisplay = '2';
+let numberDisplay = '0';
 let oneOperator = null;
 let twoOperator = null;
 let operandOne = null;
@@ -27,6 +27,12 @@ function clickButtons() {
             } else if (buttons[i].classList.contains('operator')) {
                 inputOperator(buttons[i].value)
                 updateDisplay();
+            } else if (buttons[i].classList.contains('operand')) {
+                inputOparand(buttons[i].value);
+                updateDisplay();
+            } else if (buttons[i].classList.contains('equally')) {
+                countResult();
+                updateDisplay();
             }
         })
     }
@@ -42,8 +48,37 @@ function percentToNumber() {
 }
 function inputOperator(operator){
     oneOperator = operator;
-    operandOne = numberDisplay;
-    numberDisplay = '0'
+    operandOne = parseFloat(numberDisplay);
+    numberDisplay = '0';
+}
+
+function inputOparand(operand) {
+    if (numberDisplay === '0') {
+        numberDisplay = operand;
+    } else {
+        numberDisplay = numberDisplay + operand
+    }
+
+    if (numberDisplay > 7){
+        numberDisplay = numberDisplay.substring(0,7)
+    }
+}
+
+function countResult() {
+    operandeTwo = parseFloat(numberDisplay);
+    if (oneOperator === '/'){
+        numberDisplay = (operandOne / operandeTwo).toString();
+    } else if (oneOperator === '*') {
+        numberDisplay = (operandOne * operandeTwo).toString();
+    } else if (oneOperator === '-') {
+        numberDisplay = (operandOne - operandeTwo).toString();
+    } else if (oneOperator === '+') {
+        numberDisplay = (operandOne + operandeTwo).toString();
+    }
+    console.log(typeof(numberDisplay))
+    if (numberDisplay.length > 7){
+        numberDisplay = numberDisplay.substring(0,7)
+    }
 }
 
 
