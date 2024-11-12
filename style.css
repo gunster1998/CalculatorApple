@@ -17,15 +17,16 @@ button{
     padding: 0;
     margin: 0;
     border: 0.5px solid ;
-    border-color: #292b2f;
-    background-color: #7c7d7d;
+    border-color: #290f25;
+    background-color: #a2799c;
     font-size: 22px;
     transition: opacity 0.2s;
 }
 .displayCalculator{
     width: 230px;
     height: 80px;
-    background-color: #2b2a28;
+    background-color: #290f25;
+    /*background-color: #2b2a28;*/
     font-size: 52px;
     text-align: right;
     padding-right: 5px;
@@ -38,7 +39,7 @@ button{
 }
 
 .right{
-    background-color: #ffa624;
+    background-color: #c3c529;
     font-size: 27px;
 }
 

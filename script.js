@@ -2,7 +2,9 @@ let numberDisplay = '0';
 let oneOperator = null;
 let twoOperator = null;
 let operandOne = null;
-let operandeTwo = null;
+let operandTwo = null;
+let result = null;
+
 
 const buttons = document.querySelectorAll('div.contentCalsulator > button');
 
@@ -43,17 +45,31 @@ function changeSign(){
 }
 
 function percentToNumber() {
-    console.log(typeof(parseFloat(numberDisplay)))
     numberDisplay = (parseFloat(numberDisplay) / 100).toString();
 }
 function inputOperator(operator){
-    oneOperator = operator;
-    operandOne = parseFloat(numberDisplay.replace(',','.'));
-    numberDisplay = '0';
+    if (oneOperator === null) {
+        oneOperator = operator;
+        operandOne = parseFloat(numberDisplay.replace(',','.'));
+        numberDisplay = '0';
+    } else if (result !== null){
+        oneOperator = operator;
+        operandOne = parseFloat(result.replace(',','.'));
+        numberDisplay = '0';
+    } else {
+        countResult();
+        oneOperator = operator;
+        operandOne = parseFloat(numberDisplay.replace(',','.'));
+        
+    }
+
 }
 
 function inputOparand(operand) {
-    if (numberDisplay === '0' && operand !== ',') {
+    if (result !== null) {
+        numberDisplay = operand;
+        result = null
+    } else if (numberDisplay === '0' && operand !== ',') {
         numberDisplay = operand;
     } else {
         numberDisplay = numberDisplay + operand
@@ -65,17 +81,23 @@ function inputOparand(operand) {
 }
 
 function countResult() {
-    operandeTwo = parseFloat(numberDisplay.replace(',','.'));
+    operandTwo = parseFloat(numberDisplay.replace(',','.'));
+
     if (oneOperator === '/'){
-        numberDisplay = (operandOne / operandeTwo).toString();
+        result = (operandOne / operandTwo).toString();
+        numberDisplay = result;
     } else if (oneOperator === '*') {
-        numberDisplay = (operandOne * operandeTwo).toString();
+        result = (operandOne * operandTwo).toString();
+        numberDisplay = result;
     } else if (oneOperator === '-') {
-        numberDisplay = (operandOne - operandeTwo).toString();
+        result = (operandOne - operandTwo).toString();
+        numberDisplay = result;
     } else if (oneOperator === '+') {
-        numberDisplay = (operandOne + operandeTwo).toString();
+        result = (operandOne + operandTwo).toString();
+        numberDisplay = result;
     }
-    console.log(typeof(numberDisplay))
+
+    
     if (numberDisplay.length > 7){
         numberDisplay = numberDisplay.substring(0,7)
     }
@@ -87,9 +109,9 @@ function wipeCalculator() {
     oneOperator = null;
     twoOperator = null;
     operandOne = null;
-    operandeTwo = null;
+    operandTwo = null;
+    result = null;
 }
 
 
 clickButtons();
-console.log(buttons)
