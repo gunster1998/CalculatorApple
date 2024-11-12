@@ -1,6 +1,5 @@
 let numberDisplay = '0';
-let oneOperator = null;
-let twoOperator = null;
+let currentOperator = null;
 let operandOne = null;
 let operandTwo = null;
 let result = null;
@@ -48,17 +47,17 @@ function percentToNumber() {
     numberDisplay = (parseFloat(numberDisplay) / 100).toString();
 }
 function inputOperator(operator){
-    if (oneOperator === null) {
-        oneOperator = operator;
+    if (currentOperator === null) {
+        currentOperator = operator;
         operandOne = parseFloat(numberDisplay.replace(',','.'));
         numberDisplay = '0';
     } else if (result !== null){
-        oneOperator = operator;
+        currentOperator = operator;
         operandOne = parseFloat(result.replace(',','.'));
         numberDisplay = '0';
     } else {
         countResult();
-        oneOperator = operator;
+        currentOperator = operator;
         operandOne = parseFloat(numberDisplay.replace(',','.'));
         
     }
@@ -83,16 +82,21 @@ function inputOparand(operand) {
 function countResult() {
     operandTwo = parseFloat(numberDisplay.replace(',','.'));
 
-    if (oneOperator === '/'){
-        result = (operandOne / operandTwo).toString();
-        numberDisplay = result;
-    } else if (oneOperator === '*') {
+    if (currentOperator === '/'){
+        if (operandTwo === 0) {
+            wipeCalculator();
+            numberDisplay = "Нельзя!"
+        } else {
+            result = (operandOne / operandTwo).toString();
+            numberDisplay = result;
+        }
+    } else if (currentOperator === '*') {
         result = (operandOne * operandTwo).toString();
         numberDisplay = result;
-    } else if (oneOperator === '-') {
+    } else if (currentOperator === '-') {
         result = (operandOne - operandTwo).toString();
         numberDisplay = result;
-    } else if (oneOperator === '+') {
+    } else if (currentOperator === '+') {
         result = (operandOne + operandTwo).toString();
         numberDisplay = result;
     }
@@ -106,8 +110,7 @@ function countResult() {
 
 function wipeCalculator() {
     numberDisplay = '0';
-    oneOperator = null;
-    twoOperator = null;
+    currentOperator = null;
     operandOne = null;
     operandTwo = null;
     result = null;
