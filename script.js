@@ -14,7 +14,6 @@ function updateDisplay() {
 
 function clickButtons() {
     for (let i = 0; i < buttons.length; i++) {
-        console.log(buttons[i])
         buttons[i].addEventListener('click', function () {
             if (buttons[i].classList.contains('erase')) {
                 wipeCalculator();
@@ -67,15 +66,15 @@ function inputOperator(operator){
 function inputOparand(operand) {
     if (result !== null) {
         numberDisplay = operand;
-        result = null
+        result = null;
     } else if (numberDisplay === '0' && operand !== ',') {
         numberDisplay = operand;
     } else {
-        numberDisplay = numberDisplay + operand
+        numberDisplay = numberDisplay + operand;
     }
 
     if (numberDisplay > 7){
-        numberDisplay = numberDisplay.substring(0,7)
+        numberDisplay = numberDisplay.substring(0,7);
     }
 }
 
