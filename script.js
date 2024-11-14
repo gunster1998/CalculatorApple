@@ -5,105 +5,114 @@ let operandTwo = null;
 let result = null;
 
 
-const buttons = document.querySelectorAll('div.contentCalsulator > button');
+const buttons = document.querySelectorAll('div.contentCalсulator > button');
 
 function updateDisplay() {
     const display = document.querySelector('.displayCalculator');
-    display.innerText = numberDisplay.replace('.',',');
+    if (numberDisplay.length > 7) {
+        numberDisplay = numberDisplay.substring(0, 7);
+    }
+    display.innerText = numberDisplay.replace('.', ',');
 }
 
 function clickButtons() {
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function () {
-            if (buttons[i].classList.contains('erase')) {
-                wipeCalculator();
-                updateDisplay();
-            } else if (buttons[i].classList.contains('toggleOperator')) {
-                changeSign();
-                updateDisplay();
-            } else if (buttons[i].classList.contains('operatorPercent')) {
-                percentToNumber();
-                updateDisplay();
-            } else if (buttons[i].classList.contains('operator')) {
-                inputOperator(buttons[i].value)
-                updateDisplay();
-            } else if (buttons[i].classList.contains('operand')) {
-                inputOparand(buttons[i].value);
-                updateDisplay();
-            } else if (buttons[i].classList.contains('equally')) {
-                countResult();
-                updateDisplay();
-            }
+            handleButtonClick(buttons[i]);
+            updateDisplay();
         })
     }
 }
- 
-function changeSign(){
+
+
+function handleButtonClick(button) {
+    switch (true) {
+        case button.classList.contains('erase'):
+            wipeCalculator();
+            break;
+        case button.classList.contains('toggleOperator'):
+            changeSign();
+            break;
+        case button.classList.contains('operatorPercent'):
+            percentToNumber();
+            break;
+        case button.classList.contains('operator'):
+            inputOperator(button.value);
+            break;
+        case button.classList.contains('operand'):
+            inputOperand(button.value);
+            break;
+        case button.classList.contains('equally'):
+            countResult();
+            break
+    }
+}
+
+
+function changeSign() {
     numberDisplay = (numberDisplay * -1).toString();
 }
 
 function percentToNumber() {
     numberDisplay = (parseFloat(numberDisplay) / 100).toString();
 }
-function inputOperator(operator){
+function inputOperator(operator) {
     if (currentOperator === null) {
         currentOperator = operator;
-        operandOne = parseFloat(numberDisplay.replace(',','.'));
-        numberDisplay = '0';
-    } else if (result !== null){
+    } else if (result !== null) {
         currentOperator = operator;
-        operandOne = parseFloat(result.replace(',','.'));
-        numberDisplay = '0';
     } else {
         countResult();
         currentOperator = operator;
-        operandOne = parseFloat(numberDisplay.replace(',','.'));
-        
     }
-
+    operandOne = preparationNumberDisplay();
 }
 
-function inputOparand(operand) {
+function inputOperand(operand) {
     if (result !== null) {
         numberDisplay = operand;
         result = null;
-    } else if (numberDisplay === '0' && operand !== ',') {
+    } else if (numberDisplay === '0' && operand !== ',' || numberDisplay == operandOne) {
         numberDisplay = operand;
     } else {
         numberDisplay = numberDisplay + operand;
     }
 
-    if (numberDisplay > 7){
-        numberDisplay = numberDisplay.substring(0,7);
-    }
+
+}
+function preparationNumberDisplay() {
+    return parseFloat(numberDisplay.replace(',', '.'));
 }
 
 function countResult() {
-    operandTwo = parseFloat(numberDisplay.replace(',','.'));
+    operandTwo = preparationNumberDisplay();
 
-    if (currentOperator === '/'){
-        if (operandTwo === 0) {
-            wipeCalculator();
-            numberDisplay = "Нельзя!"
-        } else {
-            result = (operandOne / operandTwo).toString();
+    if (result) {
+        numberDisplay = result;
+        return;
+    }
+
+    switch (currentOperator) {
+        case "/":
+            if (operandTwo === 0) {
+                wipeCalculator();
+                numberDisplay = "Нельзя!";
+            } else {
+                result = (operandOne / operandTwo).toString();
+                numberDisplay = result;
+            }
+            break
+        case '*': result = (operandOne * operandTwo).toString();
             numberDisplay = result;
-        }
-    } else if (currentOperator === '*') {
-        result = (operandOne * operandTwo).toString();
-        numberDisplay = result;
-    } else if (currentOperator === '-') {
-        result = (operandOne - operandTwo).toString();
-        numberDisplay = result;
-    } else if (currentOperator === '+') {
-        result = (operandOne + operandTwo).toString();
-        numberDisplay = result;
+            break
+        case '-': result = (operandOne - operandTwo).toString();
+            numberDisplay = result;
+            break
+        case '+': result = (operandOne + operandTwo).toString();
+            numberDisplay = result;
+            break
     }
-
-    
-    if (numberDisplay.length > 7){
-        numberDisplay = numberDisplay.substring(0,7)
-    }
+    currentOperator = null;
 }
 
 
@@ -117,3 +126,25 @@ function wipeCalculator() {
 
 
 clickButtons();
+
+
+
+
+// if (currentOperator === '/'){
+//     if (operandTwo === 0) {
+//         wipeCalculator();
+//         numberDisplay = "Нельзя!"
+//     } else {
+//         result = (operandOne / operandTwo).toString();
+//         numberDisplay = result;
+//     }
+// } else if (currentOperator === '*') {
+//     result = (operandOne * operandTwo).toString();
+//     numberDisplay = result;
+// } else if (currentOperator === '-') {
+//     result = (operandOne - operandTwo).toString();
+//     numberDisplay = result;
+// } else if (currentOperator === '+') {
+//     result = (operandOne + operandTwo).toString();
+//     numberDisplay = result;
+// }
