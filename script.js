@@ -24,25 +24,28 @@ function clickButtons() {
     }
 }
 
+function hasClass (button,className) {
+    return button.classList.contains(className)
+}
 
 function handleButtonClick(button) {
     switch (true) {
-        case button.classList.contains('erase'):
+        case hasClass(button, 'erase'):
             wipeCalculator();
             break;
-        case button.classList.contains('toggleOperator'):
+        case hasClass(button, 'toggleOperator'):
             changeSign();
             break;
-        case button.classList.contains('operatorPercent'):
+        case hasClass(button, 'operatorPercent'):
             percentToNumber();
             break;
-        case button.classList.contains('operator'):
+        case hasClass(button, 'operator'):
             inputOperator(button.value);
             break;
-        case button.classList.contains('operand'):
+        case hasClass(button, 'operand'):
             inputOperand(button.value);
             break;
-        case button.classList.contains('equally'):
+        case hasClass(button, 'equally'):
             countResult();
             break
     }
@@ -65,14 +68,14 @@ function inputOperator(operator) {
         countResult();
         currentOperator = operator;
     }
-    operandOne = preparationNumberDisplay();
+    operandOne = prepareNumberDisplay();
 }
 
 function inputOperand(operand) {
     if (result !== null) {
         numberDisplay = operand;
         result = null;
-    } else if (numberDisplay === '0' && operand !== ',' || numberDisplay == operandOne) {
+    } else if (numberDisplay === '0' && operand !== ',' || parseFloat(numberDisplay) === operandOne) {
         numberDisplay = operand;
     } else {
         numberDisplay = numberDisplay + operand;
@@ -80,12 +83,12 @@ function inputOperand(operand) {
 
 
 }
-function preparationNumberDisplay() {
+function prepareNumberDisplay() {
     return parseFloat(numberDisplay.replace(',', '.'));
 }
 
 function countResult() {
-    operandTwo = preparationNumberDisplay();
+    operandTwo = prepareNumberDisplay();
 
     if (result) {
         numberDisplay = result;
@@ -101,16 +104,19 @@ function countResult() {
                 result = (operandOne / operandTwo).toString();
                 numberDisplay = result;
             }
-            break
-        case '*': result = (operandOne * operandTwo).toString();
+            break;
+        case '*':
+            result = (operandOne * operandTwo).toString();
             numberDisplay = result;
-            break
-        case '-': result = (operandOne - operandTwo).toString();
+            break;
+        case '-': 
+            result = (operandOne - operandTwo).toString();
             numberDisplay = result;
-            break
-        case '+': result = (operandOne + operandTwo).toString();
+            break;
+        case '+': 
+            result = (operandOne + operandTwo).toString();
             numberDisplay = result;
-            break
+            break;
     }
     currentOperator = null;
 }
